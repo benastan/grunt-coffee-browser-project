@@ -1,0 +1,21 @@
+{
+  "name": "grunt-coffee-browser-project",
+  "version": "0.0.0",
+  "description": "Node module that short-cuts boilerplate Grunt.js tasks to build browser projects from a CoffeeScript source.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/benastan/grunt-coffee-browser-project"
+  },
+  "dependencies": {
+    "browserify": "*",
+    "grunt-browserify": "*",
+    "grunt-contrib-coffee": "*",
+    "grunt-contrib-uglify": "*"
+  },
+  "author": "Ben Bergstein",
+  "license": "BSD"
+}
