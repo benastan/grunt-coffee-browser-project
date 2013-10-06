@@ -16,22 +16,22 @@ It is 100% painless to set up a browser project.
 For starters, you'll need `npm`, `grunt`, `coffeescript`
 
 Simply add the library to your `package.json`:
-
-  {
-    "name": "your-project",
-    ...
-    "dependencies": {
-      "grunt": "*",
-      "grunt-coffee-browser-project": "*"
+  
+    {
+      "name": "your-project",
+      ...
+      "dependencies": {
+        "grunt": "*",
+        "grunt-coffee-browser-project": "*"
+      }
     }
-  }
 
 Run `npm install`, then in your `Gruntfile.js`:
-
-  var project = require('grunt-coffee-browser-project');
   
-  module.exports = function(grunt) {
-    project.init(grunt);
-  };
+    var project = require('grunt-coffee-browser-project');
+    
+    module.exports = function(grunt) {
+      project.init(grunt);
+    };
 
 Your default task will now compile your CoffeeScript, browserify the outputted codebase, and create an ugified version of your library.
