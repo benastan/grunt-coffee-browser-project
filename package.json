@@ -1,6 +1,6 @@
 {
   "name": "grunt-coffee-browser-project",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Node module that short-cuts boilerplate Grunt.js tasks to build browser projects from a CoffeeScript source.",
   "main": "index.js",
   "scripts": {
@@ -16,6 +16,17 @@
     "grunt-contrib-coffee": "*",
     "grunt-contrib-uglify": "*"
   },
-  "author": "Ben Bergstein",
-  "license": "BSD"
+  "author": {
+    "name": "Ben Bergstein"
+  },
+  "license": "BSD",
+  "_id": "grunt-coffee-browser-project@0.0.0",
+  "readme": "ERROR: No README.md file found!",
+  "dist": {
+    "shasum": "0692119394d55c7a82d3e8bb9d35b155766d90db"
+  },
+  "bin": {
+    "grunt-coffee-browser-project": "./bin/grunt-coffee-browser-project"
+  },
+  "_from": "grunt-coffee-browser-project@*"
 }

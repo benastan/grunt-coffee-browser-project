@@ -22,12 +22,16 @@ project.init = function(grunt, options) {
   if (! projectOptions.name) projectOptions.name = packageJSON.name;
 
   if (! projectOptions.directories) projectOptions.directories = {};
-  if (! projectOptions.environments) environments = { 'default': projectOptions };
+
+  environments = projectOptions.environments;
+  if (! environments) environments = { 'default': projectOptions };
+  delete projectOptions.environments;
+
   if (! options.coffee) options.coffee = {};
   if (! options.browserify) options.browserify = {};
   if (! options.uglify) options.uglify = {};
 
-  if (! projectOptions.directories.build) projectOptions.directories.build = path.dirname(packageJSON.main);
+  if (! projectOptions.directories.build) projectOptions.directories.build = 'build';
   if (! projectOptions.directories.source) projectOptions.directories.source = 'src';
   if (! projectOptions.directories.distribution) projectOptions.directories.distribution = 'dist';
 
@@ -36,12 +40,11 @@ project.init = function(grunt, options) {
   for (var environmentName in environments) {
     addTasksForEnvironment.call(options, grunt, environmentName, environments[environmentName], projectOptions);
   }
-
   grunt.initConfig(options);
 };
 
 function addTasksForEnvironment(grunt, environmentName, environmentOptions, projectOptions) {
-  var sourceDirectory, distributionDirectory, buildDirectory;
+  var basename, sourceDirectory, distributionDirectory, buildDirectory;
 
   sourceDirectory = projectOptions.directories.source;
   distributionDirectory = projectOptions.directories.distribution;
@@ -53,23 +56,25 @@ function addTasksForEnvironment(grunt, environmentName, environmentOptions, proj
     }
   }
 
+  basename = environmentOptions.basename;
+
   this.coffee[environmentName] = {
     expand: true,
     flatten: false,
     cwd: sourceDirectory,
-    src: [ '*.coffee', '*/**.coffee' ],
+    src: [ '**/*.coffee' ],
     dest: distributionDirectory,
     ext: '.js'
   };
 
   this.browserify[environmentName] = {
-    src: [ distributionDirectory+'/'+projectOptions.basename+'.js' ],
-    dest: buildDirectory+'/'+projectOptions.basename+'.js'
+    src: [ distributionDirectory+'/'+basename+'.js' ],
+    dest: buildDirectory+'/'+basename+'.js'
   };
 
   this.uglify[environmentName] = {
-    src: [ buildDirectory+'/'+projectOptions.basename+'.js' ],
-    dest: buildDirectory+'/'+projectOptions.basename+'.min.js'
+    src: [ buildDirectory+'/'+basename+'.js' ],
+    dest: buildDirectory+'/'+basename+'.min.js'
   };
 
   grunt.registerTask(

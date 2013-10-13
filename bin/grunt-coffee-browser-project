@@ -1,0 +1,42 @@
+#! /usr/local/bin/node
+
+var fs, path, currentWorkingDirectory, args, cmd;
+
+fs = require('fs');
+path = require('path');
+currentWorkingDirectory = process.cwd();
+args = process.argv.slice(2, process.argv.length);
+cmd = args.shift();
+
+switch (cmd) {
+  case 'new':
+    generateNewProject();
+    break;
+}
+
+function generateNewProject() {
+  var packageJSONPath, packageJSON, projectName, projectDirectory;
+  projectName = args.shift();
+  projectDirectory = currentWorkingDirectory + '/' + projectName;
+  packageJSONPath = projectDirectory + '/package.json';
+  if (! fs.existsSync(projectDirectory)) fs.mkdirSync(projectDirectory);
+  if (fs.existsSync(packageJSONPath)) {
+    packageJSON = JSON.parse(fs.readFileSync(packageJSONPath));
+  } else {
+    packageJSON = {
+      name: projectName,
+      version: "0.0.0",
+      main: 'dist/' + projectName + '.js'
+    }
+  }
+  if (! packageJSON.dependencies) packageJSON.dependencies = {};
+  packageJSON.dependencies['grunt'] = '*';
+  packageJSON.dependencies['grunt-coffee-browser-project'] = '*';
+  packageJSON.dependencies['grunt-contrib-watch'] = '*';
+  fs.writeFileSync(packageJSONPath, JSON.stringify(packageJSON));
+  [ 'src', 'dist', 'build', 'templates', 'public' ].forEach(function(dir) {
+    dir = projectDirectory + '/' + dir;
+    if (! fs.existsSync(dir)) fs.mkdirSync(dir);
+  });
+  fs.createReadStream(__dirname + '/../sample/Gruntfile.js').pipe(fs.createWriteStream(projectDirectory + '/Gruntfile.js'));
+}
